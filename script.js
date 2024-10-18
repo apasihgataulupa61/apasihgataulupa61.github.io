@@ -23,7 +23,7 @@ function animateTyping(text) {
 }
 
 // Memulai dengan teks awal
-animateTyping('HAIII SAYANGGKUUU ');
+animateTyping('Halowww sayangggkuuuu');
 
 // Fungsi untuk membuat beberapa balon
 function createBalloons(count) {
