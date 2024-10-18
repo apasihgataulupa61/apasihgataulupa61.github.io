@@ -2,7 +2,7 @@ document.getElementById('ubahTeks').addEventListener('click', function() {
     // Hapus teks sebelumnya
     const textElement = document.getElementById('text');
     textElement.innerHTML = ''; // Kosongkan teks sebelumnya
-    animateTyping('Teks telah diubah!');
+    animateTyping('I LOVE YOU ');
 
     // Tambahkan animasi balon
     createBalloons(10); // Membuat 10 balon
@@ -23,7 +23,7 @@ function animateTyping(text) {
 }
 
 // Memulai dengan teks awal
-animateTyping('Halowww sayangggkuuuu');
+animateTyping('HAIII SAYANGGKUUU ');
 
 // Fungsi untuk membuat beberapa balon
 function createBalloons(count) {
