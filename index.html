@@ -74,7 +74,7 @@
         <h1>Tebak Hewan dari Emoji</h1>
         <div id="loginSection">
             <input type="text" id="username" placeholder="Masukkan Nama Pengguna" required>
-            <button id="loginButton">Masuk</button>
+            <button id="addPlayerButton">Tambahkan Pemain</button>
         </div>
         <div id="gameSection" class="hidden">
             <div id="emoji" class="emoji"></div>
@@ -112,14 +112,17 @@
         let score = 0;
         const players = [];
 
-        document.getElementById("loginButton").addEventListener("click", () => {
+        document.getElementById("addPlayerButton").addEventListener("click", () => {
             const username = document.getElementById("username").value;
             if (username) {
                 players.push(username);
                 document.getElementById("playerList").textContent = "Pemain: " + players.join(", ");
-                document.getElementById("loginSection").classList.add("hidden");
-                document.getElementById("gameSection").classList.remove("hidden");
-                startGame();
+                document.getElementById("username").value = ""; // Clear input
+                if (players.length === 1) {
+                    document.getElementById("loginSection").classList.add("hidden");
+                    document.getElementById("gameSection").classList.remove("hidden");
+                    startGame();
+                }
             } else {
                 alert("Masukkan nama pengguna!");
             }
