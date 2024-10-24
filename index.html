@@ -62,7 +62,7 @@
             font-weight: bold;
         }
 
-        .player-list {
+        .player-list, .online-players {
             margin-top: 15px;
             font-size: 18px;
             text-align: left;
@@ -84,6 +84,7 @@
             <div id="score" class="score">Skor: 0</div>
             <button id="next" class="hidden">Next</button>
             <div class="player-list" id="playerList">Pemain:</div>
+            <div class="online-players" id="onlinePlayers">Pemain Online:</div>
         </div>
     </div>
 
@@ -111,22 +112,33 @@
         let currentAnimal = {};
         let score = 0;
         const players = [];
+        const onlinePlayers = [];
 
         document.getElementById("addPlayerButton").addEventListener("click", () => {
             const username = document.getElementById("username").value;
             if (username) {
-                players.push(username);
-                document.getElementById("playerList").textContent = "Pemain: " + players.join(", ");
-                document.getElementById("username").value = ""; // Clear input
-                if (players.length === 1) {
-                    document.getElementById("loginSection").classList.add("hidden");
-                    document.getElementById("gameSection").classList.remove("hidden");
-                    startGame();
+                if (!players.includes(username)) {
+                    players.push(username);
+                    onlinePlayers.push(username); // Tambahkan ke pemain online
+                    updatePlayerLists();
+                    document.getElementById("username").value = ""; // Clear input
+                    if (players.length === 1) {
+                        document.getElementById("loginSection").classList.add("hidden");
+                        document.getElementById("gameSection").classList.remove("hidden");
+                        startGame();
+                    }
+                } else {
+                    alert("Nama pengguna sudah ada!");
                 }
             } else {
                 alert("Masukkan nama pengguna!");
             }
         });
+
+        function updatePlayerLists() {
+            document.getElementById("playerList").textContent = "Pemain: " + players.join(", ");
+            document.getElementById("onlinePlayers").textContent = "Pemain Online: " + onlinePlayers.join(", ");
+        }
 
         function startGame() {
             currentAnimal = animals[Math.floor(Math.random() * animals.length)];
