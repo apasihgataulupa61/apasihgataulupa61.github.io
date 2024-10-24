@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebak Hewan Emoji - Retro</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            width: 350px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .emoji {
+            font-size: 64px;
+            margin: 20px 0;
+        }
+
+        button, input, select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #0f0;
+            background: #222;
+            color: #0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        button:hover, select:hover {
+            background: #0f0;
+            color: #000;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message, .score {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .player-list {
+            margin-top: 15px;
+            font-size: 18px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tebak Hewan dari Emoji</h1>
+        <div id="loginSection">
+            <input type="text" id="username" placeholder="Masukkan Nama Pengguna" required>
+            <button id="loginButton">Masuk</button>
+        </div>
+        <div id="gameSection" class="hidden">
+            <div id="emoji" class="emoji"></div>
+            <select id="animalSelect"></select>
+            <button id="submit">Tebak</button>
+            <div id="message" class="message"></div>
+            <div id="score" class="score">Skor: 0</div>
+            <button id="next" class="hidden">Next</button>
+            <div class="player-list" id="playerList">Pemain:</div>
+        </div>
+    </div>
+
+    <script>
+        const animals = [
+            { emoji: "🐉", name: "Naga" },
+            { emoji: "🦎", name: "Kadal" },
+            { emoji: "🦖", name: "T-Rex" },
+            { emoji: "🐢", name: "Kura-kura" },
+            { emoji: "🐂", name: "Sapi" },
+            { emoji: "🫏", name: "Kuda" },
+            { emoji: "🐶", name: "Anjing" },
+            { emoji: "🐱", name: "Kucing" },
+            { emoji: "🐵", name: "Monyet" },
+            { emoji: "🦁", name: "Singa" },
+            { emoji: "🐧", name: "Penguin" },
+            { emoji: "🦒", name: "Jerapah" },
+            { emoji: "🐘", name: "Gajah" },
+            { emoji: "🐊", name: "Buaya" },
+            { emoji: "🐍", name: "Ular" },
+            { emoji: "🐦", name: "Burung" },
+            { emoji: "🐠", name: "Ikan" },
+        ];
+
+        let currentAnimal = {};
+        let score = 0;
+        const players = [];
+
+        document.getElementById("loginButton").addEventListener("click", () => {
+            const username = document.getElementById("username").value;
+            if (username) {
+                players.push(username);
+                document.getElementById("playerList").textContent = "Pemain: " + players.join(", ");
+                document.getElementById("loginSection").classList.add("hidden");
+                document.getElementById("gameSection").classList.remove("hidden");
+                startGame();
+            } else {
+                alert("Masukkan nama pengguna!");
+            }
+        });
+
+        function startGame() {
+            currentAnimal = animals[Math.floor(Math.random() * animals.length)];
+            document.getElementById("emoji").textContent = currentAnimal.emoji;
+            document.getElementById("message").textContent = "";
+            document.getElementById("animalSelect").value = "";
+            document.getElementById("next").classList.add("hidden");
+            populateSelect();
+        }
+
+        function populateSelect() {
+            const select = document.getElementById("animalSelect");
+            select.innerHTML = ''; // Clear previous options
+            animals.forEach(animal => {
+                const option = document.createElement("option");
+                option.value = animal.name;
+                option.textContent = animal.name;
+                select.appendChild(option);
+            });
+        }
+
+        function updateScore(isCorrect) {
+            if (isCorrect) {
+                score++;
+            } else {
+                score--;
+            }
+            document.getElementById("score").textContent = `Skor: ${score}`;
+        }
+
+        document.getElementById("submit").addEventListener("click", () => {
+            const userAnswer = document.getElementById("animalSelect").value;
+            const messageElement = document.getElementById("message");
+
+            if (userAnswer === currentAnimal.name) {
+                messageElement.textContent = "Tepat!";
+                updateScore(true);
+            } else {
+                messageElement.textContent = `Salah! Jawabannya adalah ${currentAnimal.name}.`;
+                updateScore(false);
+            }
+            document.getElementById("next").classList.remove("hidden");
+        });
+
+        document.getElementById("next").addEventListener("click", startGame);
+    </script>
+</body>
+</html>
