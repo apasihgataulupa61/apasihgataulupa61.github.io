@@ -67,6 +67,13 @@
             font-size: 18px;
             text-align: left;
         }
+
+        .invite-button {
+            margin-top: 10px;
+            background: #333;
+            color: #0f0;
+            border: 1px solid #0f0;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +92,8 @@
             <button id="next" class="hidden">Next</button>
             <div class="player-list" id="playerList">Pemain:</div>
             <div class="online-players" id="onlinePlayers">Pemain Online:</div>
+            <select id="inviteSelect" class="hidden"></select>
+            <button id="inviteButton" class="hidden invite-button">Undang Pemain</button>
         </div>
     </div>
 
@@ -138,7 +147,35 @@
         function updatePlayerLists() {
             document.getElementById("playerList").textContent = "Pemain: " + players.join(", ");
             document.getElementById("onlinePlayers").textContent = "Pemain Online: " + onlinePlayers.join(", ");
+            updateInviteSelect();
         }
+
+        function updateInviteSelect() {
+            const inviteSelect = document.getElementById("inviteSelect");
+            inviteSelect.innerHTML = ''; // Clear previous options
+            onlinePlayers.forEach(player => {
+                if (!players.includes(player)) { // Hanya tampilkan pemain yang tidak dalam permainan
+                    const option = document.createElement("option");
+                    option.value = player;
+                    option.textContent = player;
+                    inviteSelect.appendChild(option);
+                }
+            });
+            inviteSelect.classList.remove("hidden");
+            document.getElementById("inviteButton").classList.remove("hidden");
+        }
+
+        document.getElementById("inviteButton").addEventListener("click", () => {
+            const invitedPlayer = document.getElementById("inviteSelect").value;
+            if (invitedPlayer) {
+                alert(`${invitedPlayer} diundang untuk bergabung!`);
+                // Tambahkan pemain yang diundang ke daftar pemain
+                if (!players.includes(invitedPlayer)) {
+                    players.push(invitedPlayer);
+                    updatePlayerLists();
+                }
+            }
+        });
 
         function startGame() {
             currentAnimal = animals[Math.floor(Math.random() * animals.length)];
