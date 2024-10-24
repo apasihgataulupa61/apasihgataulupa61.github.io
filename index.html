@@ -169,7 +169,7 @@
             const invitedPlayer = document.getElementById("inviteSelect").value;
             if (invitedPlayer) {
                 alert(`${invitedPlayer} diundang untuk bergabung!`);
-                // Tambahkan pemain yang diundang ke daftar pemain
+                // Tambahkan pemain yang diundang ke daftar pemain jika belum ada
                 if (!players.includes(invitedPlayer)) {
                     players.push(invitedPlayer);
                     updatePlayerLists();
